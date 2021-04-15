@@ -1,0 +1,27 @@
+plugins {
+    id 'java'   
+    id 'com.github.johnrengelman.shadow' version "4.0.1"
+}
+
+apply plugin: 'com.github.johnrengelman.shadow'
+
+group 'page.usthree'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.11
+targetCompatibility = 1.11
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.sparkjava:spark-core:2.9.1'
+    implementation 'org.slf4j:slf4j-simple:1.7.21'
+}
+
+shadowJar {
+    manifest {
+        attributes 'Main-Class': 'page.usthree.simple.server.App'
+    }
+}
