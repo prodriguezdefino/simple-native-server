@@ -14,9 +14,7 @@ on:
   pull_request:
 
 env:
-  # TODO: Change variable to your image's name.
   IMAGE_NAME: greeter
-  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
 
 jobs:
   # Run tests.
@@ -46,12 +44,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: google-github-actions/setup-gcloud@master
-        with:
-          service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          export_default_credentials: true
-
       - name: Build image
         run: docker build . --file Dockerfile --tag $IMAGE_NAME
 
@@ -79,7 +71,18 @@ jobs:
 
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
+          
+      - name: Login into GCP
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          export_default_credentials: true
+
       - name: Push Image to GCR
+        env:
+            GCP_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
         run: |-
-          echo "gcr.io/${{ secrets.GCP_PROJECT_ID }}/$IMAGE_NAME:latest"
+          gcloud info
+          echo "gcr.io/$GCP_PROJECT/$IMAGE_NAME:latest"
           docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:latest
