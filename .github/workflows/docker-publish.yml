@@ -81,5 +81,5 @@ jobs:
           docker push $IMAGE_ID:$VERSION
       - name: Push Image to GCR
         run: |-
-          echo "gcr.io/$PROJECT_ID/$IMAGE_NAME:latest"
+          echo "gcr.io/${{ secrets.GCP_PROJECT_ID }}/$IMAGE_NAME:latest"
           docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:latest
