@@ -84,6 +84,6 @@ jobs:
             GCP_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
             GCP_SA_KEY: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
         run: |
+          gcloud auth configure-docker -q
           docker tag $IMAGE_NAME gcr.io/$GCP_PROJECT/$IMAGE_NAME:latest
-          cat "$GCP_SA_KEY" | docker login -u _json_key --password-stdin https://gcr.io
           docker push gcr.io/$GCP_PROJECT/$IMAGE_NAME:latest
