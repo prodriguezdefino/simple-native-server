@@ -37,6 +37,7 @@ public class App {
         });
         after((req, res) -> {
             res.header("sugar", System.getProperty("java.vm.name"));
+            res.header("repo", System.getProperty("https://github.com/prodriguezdefino/simple-native-server"));
         });
     }
 }
