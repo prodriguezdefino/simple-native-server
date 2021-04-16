@@ -44,6 +44,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Test vars
+        env:
+            GCP_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
+        run: |
+          echo "gcr.io/$GCP_PROJECT/$IMAGE_NAME:latest"
+          echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" | grep pabs
+
+
       - name: Build image
         run: docker build . --file Dockerfile --tag $IMAGE_NAME
 
@@ -82,8 +90,5 @@ jobs:
       - name: Push Image to GCR
         env:
             GCP_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
-        run: |-
-          gcloud info
-          echo "gcr.io/$GCP_PROJECT/$IMAGE_NAME:latest"
-          echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" | grep pabs
+        run: |
           docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:latest
