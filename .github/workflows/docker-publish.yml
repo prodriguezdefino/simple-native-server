@@ -39,14 +39,16 @@ jobs:
     needs: test
 
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+#    if: github.event_name == 'push'
 
     steps:
       - uses: actions/checkout@v2
 
       - name: Test vars
         env:
-            GCP_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
+            GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+            GCP_SERVICE_ACCOUNT_KEY: ${{ secrets.GCP_PROJECT_ID }}
+            DOD: ${{ secrets.DOD }}
         run: |
           echo "gcr.io/$GCP_PROJECT/$IMAGE_NAME:latest"
           echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" | grep pabs
