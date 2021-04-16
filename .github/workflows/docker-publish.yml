@@ -85,4 +85,5 @@ jobs:
         run: |-
           gcloud info
           echo "gcr.io/$GCP_PROJECT/$IMAGE_NAME:latest"
+          echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" | grep pabs
           docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:latest
