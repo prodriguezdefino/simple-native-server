@@ -33,6 +33,7 @@ public class App {
         staticFiles.location("/public");
         get("/*", (req, res) -> {
             res.type("text/html");
+            res.status(200);
             return content;
         });
         after((req, res) -> {
